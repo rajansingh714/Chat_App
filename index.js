@@ -11,13 +11,12 @@ app.use("/", express.static(__dirname + "/public"));
 io.on("connection", (socket) => {
   console.log("a user connected");
 
-  socket.on("from_client", () => {
-    console.log("event coming from client");
+  socket.on("msg_send", (data) => {
+    // console.log("event coming from client", data);
+    // io.emit("msg_rcvd", data);
+    // socket.emit("msg_rcvd", data);
+    socket.broadcast.emit("msg_rcvd", data);
   });
-
-  setInterval(() => {
-    socket.emit("from_server");
-  }, 2000);
 });
 
 server.listen(3000, () => {
